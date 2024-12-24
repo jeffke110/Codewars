@@ -5,6 +5,7 @@ Each function returns one number.
 */
 
 #include <stdio.h>
+#include <limits.h>
 
 int min(int* array, int arrayLength)
 {
@@ -19,7 +20,7 @@ int min(int* array, int arrayLength)
 
 int max(int* array, int arrayLength)
 {
-    int max = 0;
+    int max = INT_MIN;
     for(int i = 0; i < arrayLength; i++){
         if(array[i] > max){
             max = array[i];
