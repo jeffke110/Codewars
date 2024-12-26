@@ -3,52 +3,46 @@
 
 bool valid_braces(const char *braces)
 {
-    int openParaCount = 0;
-    int openSquareCount = 0;
-    int openBrackCount = 0;
-    for (size_t i = 0; braces[i] != '\0'; i++)
+    char stack[256];
+    int top = -1;
+
+    for (int i = 0; braces[i] != '\0'; i++)
     {
         switch (braces[i])
         {
         case '(':
-            openParaCount++;
-            break;
         case '{':
-            openBrackCount++;
-            break;
         case '[':
-            openSquareCount++;
+            stack[++top] = braces[i];
             break;
         case ')':
-            if (openParaCount <= 0)
+            if (top < 0 && top != braces['('])
             {
                 return false;
             }
-            openParaCount--;
+            top--;
             break;
         case '}':
-            if (openBrackCount <= 0)
+            if (top < 0 && top != braces['{'])
             {
                 return false;
             }
-            openBrackCount--;
+            top--;
             break;
         case ']':
-            if (openSquareCount <= 0)
+            if (top < 0 && top != braces['{'])
             {
                 return false;
             }
-            openSquareCount--;
+            top--;
             break;
-        }
+        };
     }
-    if(openParaCount ==0 && openBrackCount == 0 && openSquareCount == 0){
-        return true;
-    }
-    return false;
+    return top == -1;
 }
 
-int main(){
+int main()
+{
     char braces[] = "())";
     printf("%s", valid_braces(braces) ? "True" : "False");
 }
